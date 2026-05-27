@@ -115,7 +115,10 @@ export function getCurrentCanvas(store: GraphStore) {
 export function findPage(store: GraphStore, input: { pageId?: string; slug?: string; title?: string }) {
   if (input.pageId) return store.pages.find((page) => page.id === input.pageId);
   if (input.slug) return store.pages.find((page) => page.slug === input.slug);
-  if (input.title) return store.pages.find((page) => page.title.toLowerCase() === input.title.toLowerCase());
+  if (input.title) {
+    const title = input.title.toLowerCase();
+    return store.pages.find((page) => page.title.toLowerCase() === title);
+  }
   return undefined;
 }
 
@@ -129,7 +132,8 @@ export async function createPage(input: {
 }) {
   const store = await readStore();
   const timestamp = now();
-  const baseSlug = slugify(input.title);
+  const pageTitle = input.title.trim() || "Untitled";
+  const baseSlug = slugify(pageTitle);
   let slug = baseSlug;
   let suffix = 2;
   while (store.pages.some((page) => page.slug === slug)) {
@@ -140,8 +144,8 @@ export async function createPage(input: {
   const page: PageRecord = {
     id: makeId("page"),
     slug,
-    title: input.title.trim() || "Untitled",
-    markdown: input.markdown ?? `# ${input.title.trim() || "Untitled"}\n\nStart writing here.`,
+    title: pageTitle,
+    markdown: input.markdown ?? `# ${pageTitle}\n\nStart writing here.`,
     tags: input.tags ?? [],
     revision: 1,
     createdAt: timestamp,
@@ -149,6 +153,7 @@ export async function createPage(input: {
   };
 
   const canvas = getCurrentCanvas(store);
+  if (!canvas) throw new Error("No canvas found.");
   canvas.nodes.push({
     id: makeId("node"),
     pageId: page.id,
