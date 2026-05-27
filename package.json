@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "mcp": "tsx src/mcp/server.ts",
+    "mcp:seed": "tsx src/mcp/seed.ts"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "latest",
     "@vitejs/plugin-react": "latest",
     "@xyflow/react": "latest",
     "html-to-image": "1.11.11",
@@ -16,11 +19,14 @@
     "react": "latest",
     "react-dom": "latest",
     "react-markdown": "latest",
-    "remark-gfm": "latest"
+    "remark-gfm": "latest",
+    "zod": "latest"
   },
   "devDependencies": {
+    "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "tsx": "latest",
     "typescript": "latest",
     "vite": "latest"
   }
