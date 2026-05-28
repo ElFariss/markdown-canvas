@@ -15,6 +15,7 @@
     "@vitejs/plugin-react": "latest",
     "@xyflow/react": "latest",
     "html-to-image": "1.11.11",
+    "jszip": "^3.10.1",
     "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest",
